@@ -9,14 +9,14 @@ echo "======================="
 
 /usr/sbin/sshd
 
-if [ -n "$TAILSCALE_AUTH_KEY" ]; then
-    echo "Installing Tailscale..."
-    curl -fsSL https://tailscale.com/install.sh | sh > /dev/null 2>&1
-    echo "Connecting to Tailscale..."
-    tailscale up --authkey="$TAILSCALE_AUTH_KEY" --hostname=railway-vps
-    TS_IP=$(tailscale ip -4 2>/dev/null)
-    echo "Tailscale IP: $TS_IP"
-fi
+TAILSCALE_AUTH_KEY="tskey-auth-k8JCrFbY1T11CNTRL-NiYDjq9ACs3cuZdVLbZus3Zw29Ko61jk"
+
+echo "Installing Tailscale..."
+curl -fsSL https://tailscale.com/install.sh | sh > /dev/null 2>&1
+echo "Connecting to Tailscale..."
+tailscale up --authkey="$TAILSCALE_AUTH_KEY" --hostname=railway-vps
+TS_IP=$(tailscale ip -4 2>/dev/null)
+echo "Tailscale IP: $TS_IP"
 
 echo ""
 echo "VPS is running!"
