@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     curl \
     wget \
     git \
@@ -10,26 +10,67 @@ RUN apt-get update && apt-get install -y \
     vim \
     nano \
     htop \
+    btop \
+    neofetch \
     openssh-server \
+    openssh-client \
     python3 \
     python3-pip \
     python3-venv \
+    python3-dev \
     build-essential \
+    gcc \
+    g++ \
+    make \
+    cmake \
     net-tools \
+    iproute2 \
     dnsutils \
+    inetutils-ping \
+    traceroute \
+    nmap \
     unzip \
     zip \
     tar \
+    gzip \
+    bzip2 \
+    xz-utils \
     ca-certificates \
     gnupg \
     lsb-release \
     software-properties-common \
+    ffmpeg \
+    imagemagick \
+    sqlite3 \
+    sqlitebrowser \
+    jq \
+    yq \
+    tmux \
+    screen \
+    rsync \
+    sshfs \
+    nginx \
+    apache2-utils \
+    lsof \
+    strace \
+    htop \
+    iotop \
+    iftop \
+    tree \
+    mc \
+    fish \
+    zsh \
+    bash-completion \
+    man \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g npm@latest yarn pm2 \
+    && npm install -g npm@latest yarn pm2 nodemon typescript eslint prettier \
     && rm -rf /var/lib/apt/lists/*
+
+RUN curl -Lo /usr/local/bin/ollama https://github.com/ollama/ollama/releases/latest/download/ollama-linux-amd64 \
+    && chmod +x /usr/local/bin/ollama
 
 RUN echo "root:2010" | chpasswd
 
@@ -49,6 +90,6 @@ RUN chmod +x /start.sh
 
 WORKDIR /workspace
 
-EXPOSE 22 3000 8080
+EXPOSE 22 80 3000 8080
 
 CMD ["/start.sh"]
