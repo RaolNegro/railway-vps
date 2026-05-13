@@ -57,6 +57,18 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     zsh \
     bash-completion \
     man \
+    docker.io \
+    fzf \
+    fd-find \
+    ripgrep \
+    telnet \
+    mtr \
+    whois \
+    iperf3 \
+    ncdu \
+    httpie \
+    aria2 \
+    speedtest-cli \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
