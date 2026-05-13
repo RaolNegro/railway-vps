@@ -49,11 +49,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     screen \
     rsync \
     sshfs \
-    nginx \
-    apache2-utils \
     lsof \
     strace \
-    htop \
     iotop \
     iftop \
     tree \
