@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y \
     sudo \
     && rm -rf /var/lib/apt/lists/*
 
+RUN curl -fsSL https://tailscale.com/install.sh | sh
+
 RUN echo "root:2010" | chpasswd
 
 RUN sed -i 's/^#*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
