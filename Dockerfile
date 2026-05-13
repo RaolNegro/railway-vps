@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     lsb-release \
     software-properties-common \
+    socat \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
@@ -37,7 +38,12 @@ RUN echo "root:2010" | chpasswd
 
 RUN sed -i 's/^#*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config \
-    && sed -i 's/^#*Port.*/Port 22/' /etc/ssh/sshd_config
+    && sed -i 's/^#*KbdInteractiveAuthentication.*/KbdInteractiveAuthentication yes/' /etc/ssh/sshd_config \
+    && sed -i 's/^#*ChallengeResponseAuthentication.*/ChallengeResponseAuthentication yes/' /etc/ssh/sshd_config \
+    && echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/99-root.conf \
+    && echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config.d/99-root.conf \
+    && echo "KbdInteractiveAuthentication yes" >> /etc/ssh/sshd_config.d/99-root.conf \
+    && rm -f /etc/ssh/sshd_config.d/60-cloudimg-settings.conf 2>/dev/null || true
 
 RUN mkdir -p /var/run/sshd /workspace
 
