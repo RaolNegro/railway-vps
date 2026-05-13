@@ -24,15 +24,12 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     lsb-release \
     software-properties-common \
-    socat \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest yarn pm2 \
     && rm -rf /var/lib/apt/lists/*
-
-RUN curl -fsSL https://tailscale.com/install.sh | sh
 
 RUN echo "root:2010" | chpasswd
 

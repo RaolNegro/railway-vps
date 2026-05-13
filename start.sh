@@ -1,7 +1,5 @@
 #!/bin/bash
 
-TAILSCALE_AUTH_KEY="tskey-auth-k8JCrFbY1T11CNTRL-NiYDjq9ACs3cuZdVLbZus3Zw29Ko61jk"
-
 mkdir -p /var/run/sshd
 /usr/sbin/sshd
 
@@ -17,32 +15,11 @@ cat > /www/index.html <<EOF
 EOF
 python3 -m http.server $PORT -d /www > /dev/null 2>&1 &
 
-mkdir -p /var/lib/tailscale /var/run/tailscale /var/cache/tailscale
-tailscaled --tun=userspace-networking \
-           --state=/var/lib/tailscale/tailscaled.state \
-           --socket=/var/run/tailscale/tailscaled.sock &
-sleep 5
-
-if ! pgrep -x tailscaled > /dev/null; then
-    tailscaled --state=/var/lib/tailscale/tailscaled.state \
-               --socket=/var/run/tailscale/tailscaled.sock &
-    sleep 5
-fi
-
-TS_IP="NOT CONNECTED"
-if pgrep -x tailscaled > /dev/null; then
-    tailscale --socket=/var/run/tailscale/tailscaled.sock up \
-        --authkey="$TAILSCALE_AUTH_KEY" \
-        --hostname=railway-vps \
-        --accept-dns=false
-    TS_IP=$(tailscale --socket=/var/run/tailscale/tailscaled.sock ip -4)
-fi
-
 echo ""
 echo "======================="
 echo " RAILWAY VPS ACTIVE"
 echo "======================="
-echo " SSH        : ssh root@$TS_IP"
+echo " SSH        : ssh root@<railway-url>"
 echo " User       : root"
 echo " Password   : 2010"
 echo " Node.js    : $(node -v)"
